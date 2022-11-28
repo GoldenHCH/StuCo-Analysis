@@ -1,0 +1,7 @@
+,event,word,Rating
+0,a,"['elephant', 'high', 'elephant', 'jump', 'apple', 'high', 'apple', 'banana', 'banana']",Good
+1,b,"['high', 'fine', 'gold', 'apple', 'elephant', 'apple', 'apple', 'apple', 'gold']",Poor
+2,c,"['gold', 'jump', 'elephant', 'gold', 'jump', 'elephant', 'fine', 'fine', 'elephant']",Good
+3,d,"['gold', 'gold', 'capital', 'elephant', 'elephant', 'fine', 'high', 'capital', 'gold']",Poor
+4,e,"['gold', 'delta', 'jump', 'banana', 'capital', 'high', 'delta', 'delta', 'apple']",Good
+5,f,"['apple', 'apple', 'jump', 'capital', 'elephant', 'jump', 'high', 'gold', 'fine']",Poor
