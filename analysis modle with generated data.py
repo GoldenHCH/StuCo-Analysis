@@ -1,6 +1,23 @@
 import pandas as pd
+from nltk.corpus import wordnet
+import difflib
 
 df = pd.read_csv('rand copy.csv')
+
+difflib.get_close_matches('anlmal', ['car', 'animal', 'house', 'animation'])
+
+
+def synonym_antonym_extractor(phrase):
+    synonyms = []
+    antonyms = []
+
+    for syn in wordnet.synsets(phrase):
+        for l in syn.lemmas():
+            synonyms.append(l.name())
+            if l.antonyms():
+                antonyms.append(l.antonyms()[0].name())
+
+    return set(synonyms)
 
 def good_attr():
     words = []
@@ -49,11 +66,12 @@ def bad_attr():
             final = i.split(",")
 
         for i in final:
+            i = i.lower()
             i = i.replace("[", "")
             i = i.replace("]", "")
             i = i.replace("'", "")
-            i = i.replace(" ", "")
-            i = i.lower()
+            i = i.replace(" ", "_")
+
             cleaned_list.append(i)
     return cleaned_list
 
@@ -87,8 +105,9 @@ def plot(df):
 def main():
     good = good_attr()
     bad = bad_attr()
-    print(analyze(good))
-    print(analyze(bad))
+    # print(analyze(good))
+    # print(analyze(bad))
+    print(synonym_antonym_extractor("love"))
     # print(f"Words in bad events {analyze(bad)}")
 
 
