@@ -1,11 +1,7 @@
 import pandas as pd
 from nltk.corpus import wordnet
-import difflib
 
 df = pd.read_csv('rand copy.csv')
-
-difflib.get_close_matches('anlmal', ['car', 'animal', 'house', 'animation'])
-
 
 def synonym_antonym_extractor(phrase):
     synonyms = []
@@ -19,12 +15,16 @@ def synonym_antonym_extractor(phrase):
 
     return set(synonyms)
 
+def syn_convert(cleaned_word_list):
+    for w in cleaned_word_list:
+        syn_set = synonym_antonym_extractor(w)
+        for i in syn_set:
+            for w_1 in cleaned_word_list:
+                if w_1 == i:
+                    w_1.replace(w)
+
 def good_attr():
-    words = []
-    lists = []
-    lol = []
-    final = []
-    cleaned_list = []
+    words, lists, lol, final, cleaned_list = [], [], [], [], []
     good_words = df.loc[df["Rating"] == "Good", "word"]
     for list in good_words:
         lol.append(list)
@@ -53,8 +53,8 @@ def bad_attr():
     lol = []
     final = []
     cleaned_list = []
-    good_words = df.loc[df["Rating"] == "Poor", "word"]
-    for list in good_words:
+    bad_words = df.loc[df["Rating"] == "Poor", "word"]
+    for list in bad_words:
         lol.append(list)
 
     for i in lol:
@@ -71,7 +71,7 @@ def bad_attr():
             i = i.replace("]", "")
             i = i.replace("'", "")
             i = i.replace(" ", "_")
-
+            i = i.lower()
             cleaned_list.append(i)
     return cleaned_list
 
@@ -107,7 +107,7 @@ def main():
     bad = bad_attr()
     # print(analyze(good))
     # print(analyze(bad))
-    print(synonym_antonym_extractor("love"))
+    print(synonym_antonym_extractor("pride"))
     # print(f"Words in bad events {analyze(bad)}")
 
 
