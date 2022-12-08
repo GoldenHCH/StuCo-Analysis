@@ -2,6 +2,7 @@ import pandas as pd
 from nltk.corpus import wordnet
 
 df = pd.read_csv('rand copy.csv')
+check_list = ["simple", "easy", "traditional", "communicating", "communication", "nostalgia", "food", "music", "pictures", "seniors", "fun"]
 
 def synonym_antonym_extractor(phrase):
     synonyms = []
@@ -18,12 +19,13 @@ def synonym_antonym_extractor(phrase):
 def syn_convert(cleaned_word_list):
     for w in cleaned_word_list:
         syn_set = synonym_antonym_extractor(w)
-        for i in syn_set:
-            for w_1 in cleaned_word_list:
-                if w_1 == i:
-                    w_1.replace(w)
+        # new_list = [x for x in cleaned_word_list if x != w]
+        for i in range(len(cleaned_word_list)):
+            if cleaned_word_list[i] in syn_set:
+                cleaned_word_list[i] = w
+    return cleaned_word_list
 
-def good_attr():
+def good_attr(df):
     words, lists, lol, final, cleaned_list = [], [], [], [], []
     good_words = df.loc[df["Rating"] == "Good", "word"]
     for list in good_words:
@@ -107,7 +109,10 @@ def main():
     bad = bad_attr()
     # print(analyze(good))
     # print(analyze(bad))
-    print(synonym_antonym_extractor("pride"))
+    # print(synonym_antonym_extractor("communication"))
+    # print(check_list)
+    print(syn_convert(check_list))
+    # print(check_list)
     # print(f"Words in bad events {analyze(bad)}")
 
 
