@@ -49,7 +49,7 @@ def good_attr(df):
 
     return cleaned_list
 
-def bad_attr():
+def bad_attr(df):
     words = []
     lists = []
     lol = []
@@ -72,6 +72,7 @@ def bad_attr():
             i = i.replace("[", "")
             i = i.replace("]", "")
             i = i.replace("'", "")
+            i = i.strip()
             i = i.replace(" ", "_")
             i = i.lower()
             cleaned_list.append(i)
@@ -93,27 +94,13 @@ def analyze(list):
 def compare(good_dict, bad_dict):
     pass
 
-def creat_df(good, bad, out):
+def creat_df(good, bad, out_in_string):
     df_good = pd.DataFrame(good, columns=['Word', 'Occurance'])
     df_bad = pd.DataFrame(bad, columns=['Word', 'Occurance'])
-    if out == good:
+    if out_in_string == "good":
         return df_good
-    elif out == bad:
+    elif out_in_string == "bad":
         return df_bad
 
 def plot(df):
     pass
-
-def main():
-    good = good_attr()
-    bad = bad_attr()
-    # print(analyze(good))
-    # print(analyze(bad))
-    # print(synonym_antonym_extractor("communication"))
-    # print(check_list)
-    print(syn_convert(check_list))
-    # print(check_list)
-    # print(f"Words in bad events {analyze(bad)}")
-
-
-main()
