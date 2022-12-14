@@ -1,8 +1,8 @@
 import pandas as pd
 from nltk.corpus import wordnet
 
-df = pd.read_csv('rand copy.csv')
-check_list = ["simple", "easy", "traditional", "communicating", "communication", "nostalgia", "food", "music", "pictures", "seniors", "fun"]
+# df = pd.read_csv('rand copy.csv')
+# check_list = ["simple", "easy", "traditional", "communicating", "communication", "nostalgia", "food", "music", "pictures", "seniors", "fun"]
 
 def synonym_antonym_extractor(phrase):
     synonyms = []
