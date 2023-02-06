@@ -1,12 +1,33 @@
 import pandas as pd
 from nltk.corpus import wordnet
+import os
+import openai
+from AI import *
 
-# df = pd.read_csv('rand copy.csv')
+openai.api_key = "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"
+df = pd.read_csv('rand copy.csv')
 # check_list = ["simple", "easy", "traditional", "communicating", "communication", "nostalgia", "food", "music", "pictures", "seniors", "fun"]
 
-def synonym_antonym_extractor(phrase):
-    synonyms = []
-    antonyms = []
+def ai(paragraph):
+  response = openai.Completion.create(
+    model="text-davinci-003",
+    prompt= f"extract the keywords and classify the sentiment from {paragraph}",
+    temperature=0.9,
+    max_tokens=1000,
+    top_p=1.0,
+    frequency_penalty=0.8,
+    presence_penalty=0.0
+  )
+  return response
+
+def extract_keywords(df):
+    for paragraphs in df["paragraph"]:
+        word = ai(paragraphs)
+        df['paragraph'].replace([paragraphs], word)
+
+def synonym_extractor(phrase):
+    synonyms = [] #create a list for synonyms
+    antonyms = [] #create a list for antonyms
 
     for syn in wordnet.synsets(phrase):
         for l in syn.lemmas():
@@ -14,16 +35,17 @@ def synonym_antonym_extractor(phrase):
             if l.antonyms():
                 antonyms.append(l.antonyms()[0].name())
 
-    return set(synonyms)
+    return set(synonyms) #use set to eliminate repeated words
 
-def syn_convert(cleaned_word_list):
-    for w in cleaned_word_list:
-        syn_set = synonym_antonym_extractor(w)
+def syn_convert(df):
+    #loop through the words
+    for w in df.word:
+        syn_set = synonym_extractor(w)
         # new_list = [x for x in cleaned_word_list if x != w]
-        for i in range(len(cleaned_word_list)):
-            if cleaned_word_list[i] in syn_set:
-                cleaned_word_list[i] = w
-    return cleaned_word_list
+        for i in range(len(df.word)):
+            if df.word[i] in syn_set:
+                df.word[i] = w
+    return df.word
 
 def good_attr(df):
     words, lists, lol, final, cleaned_list = [], [], [], [], []
@@ -104,3 +126,9 @@ def creat_df(good, bad, out_in_string):
 
 def plot(df):
     pass
+
+
+def main():
+    print(syn_convert(df))
+
+main()
