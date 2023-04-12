@@ -5,7 +5,7 @@ import openai
 from AI import *
 
 openai.api_key = "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"
-df = pd.read_csv('rand copy.csv')
+# df = pd.read_csv('rand copy.csv')
 # check_list = ["simple", "easy", "traditional", "communicating", "communication", "nostalgia", "food", "music", "pictures", "seniors", "fun"]
 
 def ai(paragraph):
@@ -18,9 +18,9 @@ def ai(paragraph):
     frequency_penalty=0.8,
     presence_penalty=0.0
   )
-  return response
+  return str(response['choices'][0]['text'])
 
-def extract_keywords(df):
+def convert_to_keywords(df):
     for paragraphs in df["paragraph"]:
         word = ai(paragraphs)
         df['paragraph'].replace([paragraphs], word)

@@ -1,9 +1,9 @@
 import os
 import openai
 
-openai.api_key = "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"
+openai.api_key = "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"
 
-paragraph = "Tailgate went great. Hotdogs, otter pops, and condiments were served during lunch. We actually had pretty much the perfect amount of food and setup was quite minimal with a couple grills. Participation was better than I expected with lines overflowing into the school. The games we set up weren’t used too much; this happened because we couldn’t really initiate the games since we were serving the food. "
+# paragraph = "We planned the event in the classroom. It was a very stressful process, but we completed the script. The theme was gold, and we decorated with gold stars and streamers. The event itself was really fun and everything went smoothly for the most part."
 
 def ai(paragraph):
   response = openai.Completion.create(
@@ -15,6 +15,6 @@ def ai(paragraph):
     frequency_penalty=0.8,
     presence_penalty=0.0
   )
-  return response
+  return str(response['choices'][0]['text'])
 
-print(ai(paragraph))
+# print(ai(paragraph))
