@@ -1,20 +1,19 @@
 import gspread
-import oauth2client.service_account import ServiceAccountCredentials
+from oauth2client import service_account as sv_acc
+import pandas as pd
 
-myscope = ['https://spreadsheets.google.com/feeds',
-            'https://www.googleapis.com/auth/drive']
+scopes = {
+    'https://www.googleapis.com/auth/spreadsheets',
+    'https://www.googleapis.com/auth/drive'
+          }
 
-mycred = ServiceAccountCredentials.from_json_keyfile_name('credentials.json',myscope)
+creds = sv_acc.ServiceAccountCredentials.from_json_keyfile_name('credentials.json', scopes=scopes)
 
-client =gspread.authorize(mycred)
+# read data from sheet into a pandas dataframe
+file = gspread.authorize(creds)
+worksheet = file.open('Analysis of things that make an event successful  (Responses)').sheet1
+data = worksheet.get_all_values()
+headers = data.pop(0)
+df = pd.DataFrame(data, columns=headers)
 
-#open the file
-
-mysheet = client.open("Country List").sheet1
-
-list_of_row = mysheet.get_all_records()
-row1 = mysheet.row_values(1)
-print("List of countries:")
-print(list_of_row)
-print("The first country:")
-print(row1)
+print(df)
