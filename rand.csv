@@ -1,7 +1,0 @@
-,event,word
-0,a,"['elephant', 'high', 'elephant', 'jump', 'apple', 'high', 'apple', 'banana', 'banana']"
-1,b,"['high', 'fine', 'gold', 'apple', 'elephant', 'apple', 'apple', 'apple', 'gold']"
-2,c,"['gold', 'jump', 'elephant', 'gold', 'jump', 'elephant', 'fine', 'fine', 'elephant']"
-3,d,"['gold', 'gold', 'capital', 'elephant', 'elephant', 'fine', 'high', 'capital', 'gold']"
-4,e,"['gold', 'delta', 'jump', 'banana', 'capital', 'high', 'delta', 'delta', 'apple']"
-5,f,"['apple', 'apple', 'jump', 'capital', 'elephant', 'jump', 'high', 'gold', 'fine']"
