@@ -6,14 +6,14 @@ from AI import *
 import gspread
 from oauth2client import service_account as sv_acc
 
-openai.api_key = "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"
+openai.api_key = "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"
 # df = pd.read_csv('rand copy.csv')
 # check_list = ["simple", "easy", "traditional", "communicating", "communication", "nostalgia", "food", "music", "pictures", "seniors", "fun"]
 
 def ai(paragraph):
   response = openai.Completion.create(
     model="text-davinci-003",
-    prompt= f"extract the keywords and classify the sentiment from {paragraph}",
+    prompt= f"extract the keywords from {paragraph}, make sure the words are separated by commas",
     temperature=0.9,
     max_tokens=1000,
     top_p=1.0,
@@ -23,9 +23,9 @@ def ai(paragraph):
   return str(response['choices'][0]['text'])
 
 def convert_to_keywords(df):
-    for paragraphs in df["paragraph"]:
-        word = ai(paragraphs)
-        df['paragraph'].replace([paragraphs], word)
+    for i in range(len(df)):
+        word = ai(df.loc[i, "Response"])
+        df.loc[i, "Response"] = word
 
 def synonym_extractor(phrase):
     synonyms = [] #create a list for synonyms
@@ -39,15 +39,15 @@ def synonym_extractor(phrase):
 
     return set(synonyms) #use set to eliminate repeated words
 
-def syn_convert(df):
+def syn_convert(list):
     #loop through the words
-    for w in df.word:
+    for w in list:
         syn_set = synonym_extractor(w)
         # new_list = [x for x in cleaned_word_list if x != w]
-        for i in range(len(df.word)):
-            if df.word[i] in syn_set:
-                df.word[i] = w
-    return df.word
+        for i in range(len(list)):
+            if list[i] in syn_set:
+                list[i] = w
+    return list
 
 def good_attr(df):
     words, lists, lol, final, cleaned_list = [], [], [], [], []
@@ -64,6 +64,7 @@ def good_attr(df):
             final = i.split(",")
 
         for i in final:
+            i = i.replace("Keywords: ", "")
             i = i.replace("[", "")
             i = i.replace("]", "")
             i = i.replace("'", "")
@@ -151,5 +152,3 @@ def api():
     new_df = pd.DataFrame(df, columns=['Event', 'Response', "Rating"])
 
     return df
-
-print(api)
