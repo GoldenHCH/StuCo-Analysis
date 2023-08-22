@@ -7,9 +7,8 @@ import gspread
 from oauth2client import service_account as sv_acc
 
 openai.api_key = "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"
-# df = pd.read_csv('rand copy.csv')
-# check_list = ["simple", "easy", "traditional", "communicating", "communication", "nostalgia", "food", "music", "pictures", "seniors", "fun"]
 
+#input a paragraph, extract keywords, output a string of keywords
 def ai(paragraph):
   response = openai.Completion.create(
     model="text-davinci-003",
@@ -22,11 +21,15 @@ def ai(paragraph):
   )
   return str(response['choices'][0]['text'])
 
+#input, loop through dataframe, convert each paragraphs in cells in the dataframe into keywords using the "ai" function
+#this function edits the dataframe
 def convert_to_keywords(df):
     for i in range(len(df)):
         word = ai(df.loc[i, "Response"])
         df.loc[i, "Response"] = word
 
+#finds all the synonyms of the input
+#input a string (word/phrase) and output a set of all the synonyms
 def synonym_extractor(phrase):
     synonyms = [] #create a list for synonyms
     antonyms = [] #create a list for antonyms
@@ -38,6 +41,7 @@ def synonym_extractor(phrase):
                 antonyms.append(l.antonyms()[0].name())
 
     return set(synonyms) #use set to eliminate repeated words
+
 
 def syn_convert(list):
     #loop through the words
@@ -133,11 +137,6 @@ def api():
         'https://www.googleapis.com/auth/spreadsheets',
         'https://www.googleapis.com/auth/drive'
     }
-
-    # sheet_id = "1l6DpBYExqIDhcaa7hk7Aza1LTUzwdF8UVMfM4exNXkA"
-    # sheet_name = "Form Responses 1"
-    # sheet_url = "https://docs.google.com/spreadsheets/d/{}/gviz/tq?tqx=out:csv&sheet={}".format(sheet_id, sheet_name)
-    # df = pd.read
 
     creds = sv_acc.ServiceAccountCredentials.from_json_keyfile_name('credentials.json', scopes=scopes)
 
